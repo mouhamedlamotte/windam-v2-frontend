@@ -1,10 +1,10 @@
 import React from "react";
 import { Layout } from "../_layout";
-import ChatroomsSide from "../features/chats/components/chatroomside";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { CircleEllipsis, Phone } from "lucide-react";
 import { Input } from "@/components/ui/input";
+import ChatroomsSide from "./components/chatroomside";
 
 const Chats = () => {
   return (
