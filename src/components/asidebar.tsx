@@ -30,7 +30,7 @@ type SideBarLinkProps = {
 const Asidebar = () => {
   const links: SideBarLinkProps[] = [
     {
-      href: "/",
+      href: "/feed",
       name: "Home",
       icon: Home,
     },
