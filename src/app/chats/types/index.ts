@@ -1,3 +1,5 @@
-import { chatRoomType } from "./types";
+import { PrivatechatRoomType, GroupchatRoomType } from "./types";
 
-export type { chatRoomType }
+
+
+export type { PrivatechatRoomType, GroupchatRoomType }
