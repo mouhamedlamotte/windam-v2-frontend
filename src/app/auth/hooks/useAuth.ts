@@ -25,7 +25,7 @@ export const useAuth = () => {
     }
     if (error){
       logout()
-      deleteCookie('token')
+      // deleteCookie('token')
     }
     return { user, error, isLoading };
 };

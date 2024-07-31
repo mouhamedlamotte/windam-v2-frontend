@@ -10,6 +10,8 @@ import { GroupChatItem, PrivateChatItem } from './chatroomItem';
 import { useQuery } from '@tanstack/react-query';
 import Axiosinstance from '@/lib/axios';
 import { GroupchatRoomType, PrivatechatRoomType } from '../types';
+import { useChatroom } from '../hooks/useChatroom';
+import { useChatroomStore } from '../stores/UseChatroomStore';
 
 
 
@@ -20,6 +22,18 @@ import { GroupchatRoomType, PrivatechatRoomType } from '../types';
 
 
 const ChatroomsSide = () => {
+
+  const { mutate, data, error } = useChatroom();
+
+  const {dispatch} = useChatroomStore()
+
+  const handleClick = (name:string) =>{
+    mutate(name, {
+      onSuccess: (chatroomData) => {
+        dispatch({ type: "CHANGE_ROOM", payload: chatroomData });
+      },
+    });
+  }
 
   return (
     <div className="w-3/12 h-full border-r">
@@ -46,8 +60,8 @@ const ChatroomsSide = () => {
         </TabsTrigger>
       </TabsList>
       <ScrollArea className="h-full">
-          <PrivateChatrooms/>
-          <GroupChatrooms/>
+          <PrivateChatrooms handleClick = {handleClick}/>
+          <GroupChatrooms handleClick = {handleClick}/>
       </ScrollArea>
     </Tabs>
   </div>
@@ -57,7 +71,7 @@ const ChatroomsSide = () => {
 export default ChatroomsSide
 
 
-const PrivateChatrooms = () =>{
+const PrivateChatrooms = ({handleClick}: {handleClick: (name:string) => void}) =>{
   const { isLoading, error, data } = useQuery<PrivatechatRoomType[]>({
     queryKey: ['private-chatrooms'],
     queryFn: async () =>{
@@ -65,17 +79,19 @@ const PrivateChatrooms = () =>{
       return res.data;
     }
   })
+
+  
   return(
     <TabsContent value="chats">
     {data?.map((chat) => (
-      <PrivateChatItem key={chat.pk} chat={chat} />
+      <PrivateChatItem key={chat.pk} chat={chat} handleClick = {handleClick} />
     ))}
   </TabsContent>
   )
 }
 
 
-const GroupChatrooms = () =>{
+const GroupChatrooms = ({handleClick}: {handleClick: (name:string) => void}) =>{
   const { isLoading, error, data } = useQuery<GroupchatRoomType[]>({
     queryKey: ['group-chatrooms'],
     queryFn: async () =>{
@@ -86,7 +102,7 @@ const GroupChatrooms = () =>{
   return(
     <TabsContent value="groups">
     {data?.map((chat) => (
-      <GroupChatItem key={chat.pk} chat={chat} />
+      <GroupChatItem key={chat.pk} chat={chat}  handleClick = {handleClick} />
     ))}
   </TabsContent>
   )

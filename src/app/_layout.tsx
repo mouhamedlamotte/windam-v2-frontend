@@ -26,7 +26,10 @@ export function Layout({
 
   if (error) {
       return <div className="flex h-screen w-full">
-        <h3 className="m-auto text-sm font-bold max-w-md">Une erreur est survenue, veuillez reessayer plutard, ou contacter l&apos;administrateur</h3>
+        <h3 className="m-auto text-sm font-bold max-w-md text-center">Une erreur est survenue, veuillez reessayer plutard, ou contacter l&apos;administrateur,
+          <br/>
+          <span className="mt-4 font-bold">{error.name} : {error.message}</span>
+        </h3>
       </div>;
   }
 

@@ -1,280 +1,63 @@
 "use client";
 
-import { Input } from "@/components/ui/input";
-import React, { useEffect, useRef } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
-import { CircleEllipsis, Info, Lock, Phone, UserPlus2 } from "lucide-react";
-import { ChatRoomType, ChatroomMessageType } from "../types/types";
+import { ChevronDown, CircleEllipsis, Info, Lock, MessageSquareText, MoreHorizontal, Phone, SendHorizonal, UserPlus2, Zap } from "lucide-react";
+import { ChatroomMessageType } from "../types/types";
 import useAuthStore from "@/app/auth/stores/useAuthStore";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { cn, formatDate } from "@/lib/utils";
 import { UserType } from "@/app/profile/types";
 
 import { CopyBlock, dracula } from "react-code-blocks";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { useChatroomStore } from "../stores/UseChatroomStore";
+import useWebSocket from "react-use-websocket";
 
 const Chatroom = () => {
   const { user } = useAuthStore();
 
   console.table(user);
+  const [message, setMessage] = useState("");
+  const {chatroom, dispatch} = useChatroomStore()
+  const socketUrl = 'ws://localhost:8000/ws/messenger/chatroom/aQoJV7HKsKm2uch5hfujsx/'
 
-  const chatroom: ChatRoomType = {
-    chats : [
-      {
-        pk: 2,
-        sender: {
-          pk: 2,
-          username: "mouhamed",
-          first_name: "",
-          last_name: "",
-          email: "",
-        },
-        type: "code",
-        file: "",
-        content: `from django.db import models
-    import shortuuid
-    from accounts.models import User
-    
-    # Create your models here.
-    
-    class ChatRoom(models.Model):
-        name = models.CharField(max_length=255, unique=True, default=shortuuid.uuid)
-        created_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='chatrooms_created_by')
-        group_name = models.CharField(max_length=255, blank=True)
-        private = models.BooleanField(default=False)
-        members = models.ManyToManyField(User, related_name='chatrooms_members', blank=True)
-        created_at = models.DateTimeField(auto_now_add=True)
-        updated_at = models.DateTimeField(auto_now=True)
-        last_message = models.JSONField(null=True, blank=True)
-        last_message_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='last_message_by', null=True, blank=True)
-        def __str__(self):
-            return self.name`,
-        seen: false,
-        created_at: "2024-07-28T17:01:02.844780Z",
-      },
-      {
-        pk: 1,
-        sender: {
-          pk: 3,
-          username: "baba",
-          first_name: "",
-          last_name: "",
-          email: "",
-        },
-        type: "text",
-        file: "",
-        content: "Tu as implemente le chatroom ?",
-        seen: false,
-        created_at: "2024-07-28T16:38:39.348686Z",
-      },
-      {
-        pk: 3,
-        sender: {
-          pk: 2,
-          username: "mouhamed",
-          first_name: "",
-          last_name: "",
-          email: "",
-        },
-        type: "text",
-        file: "",
-        content: "Oui, tu peut jeter un coud d'oeuil su le model django",
-        seen: false,
-        created_at: "2024-07-28T16:38:39.348686Z",
-      },
-      {
-        pk: 4,
-        sender: {
-          pk: 3,
-          username: "baba",
-          first_name: "",
-          last_name: "",
-          email: "",
-        },
-        type: "text",
-        file: "",
-        content: "Il a l'air bien. Tu as prévu des fonctionnalités supplémentaires comme les notifications ou la recherche dans les messages ? 🛠️",
-        seen: false,
-        created_at: "2024-07-28T17:15:22.123456Z",
-      },
-      {
-        pk: 5,
-        sender: {
-          pk: 2,
-          username: "mouhamed",
-          first_name: "",
-          last_name: "",
-          email: "",
-        },
-        type: "text",
-        file: "",
-        content: "Pas encore, mais c'est une bonne idée ! 🤔 Pour les notifications, je pensais utiliser Django Channels pour gérer le temps réel. 📩 Pour la recherche, on pourrait utiliser le champ `search` de Django. Tu as des suggestions spécifiques ?",
-        seen: false,
-        created_at: "2024-07-28T17:20:55.789101Z",
-      },
-      {
-        pk: 6,
-        sender: {
-          pk: 3,
-          username: "baba",
-          first_name: "",
-          last_name: "",
-          email: "",
-        },
-        type: "text",
-        file: "",
-        content: "Ça semble parfait ! 👍 Ça pourrait être utile d'ajouter des fonctionnalités de filtrage des messages par date ou par utilisateur. Pour les notifications, une classe `Notification` pourrait être ajoutée pour gérer les notifications des nouveaux messages. 💬",
-        seen: false,
-        created_at: "2024-07-28T17:25:10.234567Z",
-      },
-      {
-        pk: 7,
-        sender: {
-          pk: 2,
-          username: "mouhamed",
-          first_name: "",
-          last_name: "",
-          email: "",
-        },
-        type: "code",
-        file: "",
-        content: `from django.db import models
-    
-    class Notification(models.Model):
-        user = models.ForeignKey(User, on_delete=models.CASCADE)
-        chatroom = models.ForeignKey(ChatRoom, on_delete=models.CASCADE)
-        message = models.TextField()
-        read = models.BooleanField(default=False)
-        created_at = models.DateTimeField(auto_now_add=True)
-    
-        def __str__(self):
-            return \`Notification for \${self.user.username} in chatroom \${self.chatroom.name}\``,
-        seen: false,
-        created_at: "2024-07-28T17:30:00.987654Z",
-      },
-      {
-        pk: 8,
-        sender: {
-          pk: 3,
-          username: "baba",
-          first_name: "",
-          last_name: "",
-          email: "",
-        },
-        type: "text",
-        file: "",
-        content: "Super ajout ! Pour les filtres, on pourrait ajouter des champs de date et d'utilisateur dans le modèle `Message`. Voilà un exemple de code pour le modèle `Message` avec ces filtres :",
-        seen: false,
-        created_at: "2024-07-28T17:35:45.345678Z",
-      },
-      {
-        pk: 9,
-        sender: {
-          pk: 3,
-          username: "baba",
-          first_name: "",
-          last_name: "",
-          email: "",
-        },
-        type: "code",
-        file: "",
-        content: `from django.db import models
-    from accounts.models import User
-    from chatrooms.models import ChatRoom
-    
-    class Message(models.Model):
-        chatroom = models.ForeignKey(ChatRoom, on_delete=models.CASCADE)
-        sender = models.ForeignKey(User, on_delete=models.CASCADE)
-        content = models.TextField()
-        created_at = models.DateTimeField(auto_now_add=True)
-        updated_at = models.DateTimeField(auto_now=True)
-    
-        class Meta:
-            indexes = [models.Index(fields=['created_at'])]
-    
-        def __str__(self):
-            return \`\${self.sender.username}: \${self.content[:50]}\``,
-        seen: false,
-        created_at: "2024-07-28T17:40:22.456789Z",
-      },
-      {
-        pk: 10,
-        sender: {
-          pk: 2,
-          username: "mouhamed",
-          first_name: "",
-          last_name: "",
-          email: "",
-        },
-        type: "text",
-        file: "",
-        content: "Top ! 👍 Avec cette approche, on pourra facilement filtrer les messages par date et utilisateur. Merci pour les conseils, ça rendra le projet encore plus robuste ! Si tu as d'autres idées ou questions, fais-le moi savoir. 🙌",
-        seen: false,
-        created_at: "2024-07-28T17:45:33.567890Z",
-      }
-    ],
-    chatroom: {
-      pk: 4,
-      name: "aQoJV7HKsKm2uch5hfujsx",
-      created_by: {
-        pk: 3,
-        username: "baba",
-        first_name: "",
-        last_name: "",
-        email: "",
-      },
-      last_message_by: {
-        pk: 2,
-        username: "mouhamed",
-        first_name: "",
-        last_name: "",
-        email: "",
-      },
-      last_message: {
-        type: "text",
-        content: "hi everyone",
-        created_at: "2024-07-28T14:43:20.837699Z",
-      },
-      group_name: "Odc Dev Team",
-      members: [
-        {
-          pk: 2,
-          username: "mouhamed",
-          first_name: "",
-          last_name: "",
-          email: "",
-        },
-        {
-          pk: 3,
-          username: "baba",
-          first_name: "",
-          last_name: "",
-          email: "",
-        },
-      ],
-      created_at: "2024-07-28T15:57:37.925070Z",
-      private: true,
-    },
-  };
-
-    const messageEndRef = useRef<HTMLDivElement>(null);
+  const { sendMessage, lastMessage } = useWebSocket(socketUrl);
 
   useEffect(() => {
-    if (messageEndRef.current) {
-      messageEndRef.current.scrollIntoView({ behavior: "smooth" });
+    if (lastMessage !== null) {  
+        const msg = JSON.parse(lastMessage.data).message;;
+        dispatch({type : "RECEIVE_MESSAGE", payload : msg})
     }
-  }, [chatroom]);
+    return () => {
+        
+    }
+  }, [lastMessage]);
+
+
+  const handleClickSendMessage = useCallback(() => {
+    if (message === "") return
+    sendMessage(JSON.stringify({content : message}))
+    setMessage("");
+  }, [message, sendMessage]);
+
+  if (!chatroom){
+    return (<div className="flex justify-center items-center h-screen w-5/6">
+        <h3>Selectioner un message pour contnuer</h3>
+    </div>)
+  }
+
   return (
     <div className="w-5/6 flex flex-col justify-between">
       <div className="w-full px-8 py-4 flex">
-        {chatroom.chatroom.private ? (
+        {chatroom?.chatroom.private ? (
           <div className="flex gap-4">
             <Avatar>
               <AvatarImage src="" />
               <AvatarFallback>
                 {
-                  chatroom.chatroom.members.filter(
+                  chatroom?.chatroom.members.filter(
                     (member) => member.pk !== user?.pk
                   )[0].username[0]
                 }
@@ -283,7 +66,7 @@ const Chatroom = () => {
             <div>
               <h4 className="font-semibold">
                 {
-                  chatroom.chatroom.members.filter(
+                  chatroom?.chatroom.members.filter(
                     (member) => member.pk !== user?.pk
                   )[0].username
                 }
@@ -295,12 +78,12 @@ const Chatroom = () => {
           <div className="flex gap-4">
             <Avatar>
               <AvatarImage src="" />
-              <AvatarFallback>{chatroom.chatroom.group_name[0]}</AvatarFallback>
+              <AvatarFallback>{chatroom?.chatroom.group_name[0]}</AvatarFallback>
             </Avatar>
             <div>
-              <h4 className="font-semibold">{chatroom.chatroom.group_name}</h4>
+              <h4 className="font-semibold">{chatroom?.chatroom.group_name}</h4>
               <p className="text-sm text-muted-foreground">
-                {chatroom.chatroom.members
+                {chatroom?.chatroom.members
                   .map((member) => member.username)
                   .join(", ")}
               </p>
@@ -319,7 +102,7 @@ const Chatroom = () => {
       <div className="grow h-3/5 bg-background rounded-md rounded-tl-none py-2">
         <ScrollArea  className="h-full px-3">
           <div className="w-full flex items-center justify-center p-4">
-            {chatroom.chatroom.private ? (
+            {chatroom?.chatroom.private ? (
               <Card className="p-4">
                 <CardContent className="p-0 text-yellow-300 text-xs flex items-center gap-2">
                   <Lock className="h-3 w-3" />
@@ -333,13 +116,13 @@ const Chatroom = () => {
                     <AvatarImage src="" />
                     <AvatarFallback className="text-5xl">
                       {" "}
-                      {chatroom.chatroom.group_name[0]}{" "}
+                      {chatroom?.chatroom.group_name[0]}{" "}
                     </AvatarFallback>
                   </Avatar>
                   <p>
                     Groupe &#8226; Cree le{" "}
-                    {formatDate(chatroom.chatroom.created_at)} par{" "}
-                    {chatroom.chatroom.created_by.username}
+                    {chatroom?.chatroom.created_at && formatDate(chatroom?.chatroom.created_at)} par{" "}
+                    {chatroom?.chatroom.created_by.username}
                   </p>
                   <Button variant="ghost">Ajouter une description...</Button>
                   <div className="flex gap-2">
@@ -357,17 +140,51 @@ const Chatroom = () => {
             )}
           </div>
           <div className="grid grid-cols-1 gap-4">
-            {chatroom.chats.map((message) => (
+            {chatroom?.chats.map((message) => (
               <ChatMessage key={message.pk} message={message} user={user} />
             ))}
           </div>
           {/* =<div ref={messageEndRef}/> */}
         </ScrollArea>
       </div>
-      <div className="w-full px-6 py-4 border-t">
-        <form action="">
-          <Input placeholder="Type your message here" />
-        </form>
+      <div className="w-full border-t">
+      <Card className=" shadow-lg px-3 py-1 overflow-hidden  rounded-none">
+        <CardHeader className="items-start p-0">
+          <Button
+            variant="ghost"
+            className="gap-2 p-0 hover:bg-transparent items-center"
+          >
+            <MessageSquareText
+              fill="currentColor"
+              stroke="white"
+              className="h-6 w-6 mt-1.5"
+            />
+            Chats
+            <ChevronDown className="h-4 w-4" />
+          </Button>
+        </CardHeader>
+        <div className="overflow-hidden">
+          <textarea
+            value={message}
+            onChange={(e) => setMessage(e.target.value)}
+            placeholder="Use ctrl + enter to send messages"
+            className="w-full px-4 border-none shadow-none focus-within:border-none outline-none focus-within:outline-none focus-visible:ring-0 p-0 bg-transparent scrollbar-none resize-none"
+          ></textarea>
+        </div>
+        <div className="flex justify-between items-center">
+          <Button variant="ghost" className="p-0 hover:bg-transparent">
+            <Zap fill="currentColor" size={16} />
+          </Button>
+          <div className="flex">
+            <Button variant="ghost" className="">
+              <MoreHorizontal fill="currentColor" size={16} />
+            </Button>
+            <Button variant="ghost" className="" onClick={handleClickSendMessage}>
+              <SendHorizonal fill="currentColor" size={16} />
+            </Button>
+          </div>
+        </div>
+      </Card>
       </div>
     </div>
   );
@@ -409,7 +226,7 @@ const ChatMessage = ({
           
           <div
             className={cn(
-              "bg-muted max-w-xl",
+              "bg-muted max-w-4xl",
               message.sender.pk === user?.pk
                 ? "bg-primary rounded-l-md rounded-tr-md"
                 : "bg-muted rounded-r-md rounded-tl-md"
@@ -435,8 +252,8 @@ const ChatMessage = ({
 
 const CodeSnippet = ({ children }: { children: string }) => {
   return (
-    <div className="text-sm  rounded-md p-2 bg-background">
-      <CopyBlock language="py" text={children} theme={dracula} codeBlock />
+    <div className="text-sm  rounded-md p-2 bg-background scrollbar-none">
+      <CopyBlock language="python" text={children} theme={dracula} codeBlock />
     </div>
   );
 };

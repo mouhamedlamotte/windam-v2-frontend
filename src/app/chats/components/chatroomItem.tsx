@@ -2,11 +2,18 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { formatDate } from "@/lib/utils";
 import { GroupchatRoomType, PrivatechatRoomType } from "../types";
+import { useChatroom } from "../hooks/useChatroom";
+import { useChatroomStore } from "../stores/UseChatroomStore";
+import { Button } from "@/components/ui/button";
 
 
-export const PrivateChatItem = ({ chat }: { chat: PrivatechatRoomType }) => {
+export const PrivateChatItem = ({ chat, handleClick }: { chat: PrivatechatRoomType, handleClick: (name: string) => void }) => {
+
+
+
+
     return (
-      <div className="w-full flex items-center hover:bg-muted p-3 px-4 cursor-pointer">
+      <a href="#" className="w-full flex items-center hover:bg-muted p-3 px-4 cursor-pointer" onClick={() => handleClick(chat.name)}>
         <Avatar>
           <AvatarImage src="" />
           <AvatarFallback>{chat.user.username[0].toUpperCase()}</AvatarFallback>
@@ -20,24 +27,21 @@ export const PrivateChatItem = ({ chat }: { chat: PrivatechatRoomType }) => {
           {formatDate(chat.last_message.created_at)}
           </p>
           <p className="text-end">
-            {/* {chat.lastMessageReaded ? (
-              <CheckCheck className="text-primary h-4 w-4" />
-            ) : (
-              <div className="h-5 w-5 bg-red-500 flex rounded-full justify-center items-center text-xs">
-                2
-              </div>
-            )} */}
+
           </p>
         </div>
-      </div>
+      </a>
     );
   };
 
 
 
-  export const GroupChatItem = ({ chat }: { chat: GroupchatRoomType }) => {
+  export const GroupChatItem = ({ chat, handleClick }: { chat: GroupchatRoomType, handleClick: (name: string) => void }) => {
+
+
+
     return (
-      <div className="w-full flex items-center hover:bg-muted p-3 px-4 cursor-pointer">
+      <a href="#" onClick={() => handleClick(chat.name)} className="w-full flex items-center hover:bg-muted p-3 px-4 cursor-pointer" >
         <Avatar>
           <AvatarImage src="" />
           <AvatarFallback>{chat.group_name[0]?.toUpperCase()}</AvatarFallback>
@@ -53,17 +57,8 @@ export const PrivateChatItem = ({ chat }: { chat: PrivatechatRoomType }) => {
           {chat.last_message?.created_at && formatDate(chat.last_message.created_at)}
           </p>
           <p className="text-end">
-            {/* {chat.lastMessageReaded ? (
-              <CheckCheck className="text-primary h-4 w-4" />
-            ) : (
-              <div className="h-5 w-5 bg-red-500 flex rounded-full justify-center items-center text-xs">
-                2
-              </div>
-            )} */}
           </p>
         </div>
-      </div>
+      </a>
     );
   };
-
-

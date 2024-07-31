@@ -108,3 +108,18 @@
   }
 }
       
+
+.scrollbar-none::-webkit-scrollbar{
+  display: none;
+}
+span::-webkit-scrollbar{
+  display: none !important;
+}
+.sc-gJhJTp::-webkit-scrollbar{
+  display: none !important;
+}
+
+
+.textarea::before {
+  content: none;
+}
