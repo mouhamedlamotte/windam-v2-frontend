@@ -16,7 +16,7 @@ import { useChatroomStore } from "../stores/UseChatroomStore";
 import useWebSocket from "react-use-websocket";
 
 const Chatroom = () => {
-  const { user } = useAuthStore();
+  const user = useAuthStore((state) => state.user);
 
   console.table(user);
   const [message, setMessage] = useState("");
@@ -24,6 +24,7 @@ const Chatroom = () => {
   const socketUrl = 'ws://localhost:8000/ws/messenger/chatroom/aQoJV7HKsKm2uch5hfujsx/'
 
   const { sendMessage, lastMessage } = useWebSocket(socketUrl);
+  
 
   useEffect(() => {
     if (lastMessage !== null) {  

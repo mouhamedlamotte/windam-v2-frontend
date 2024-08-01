@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Bot } from "lucide-react";
+import Link from "next/link";
 
 const AuthLayout = ({ name, description, children }: { name: string; description: string; children: React.ReactNode }) => {
   return (
@@ -7,15 +8,17 @@ const AuthLayout = ({ name, description, children }: { name: string; description
       <div className="px-6 py-8 w-full">
         <div className="flex items-center gap-4 text-primary">
           <Bot size={35} />
-          <h1 className="text-3xl font-bold">Windam</h1>
+          <h1 className="text-2xl font-extrabold">Windam</h1>
         </div>
       </div>
         <div className="flex grow  justify-between">
             <div className="div flex-1 h-full flex justify-center items-center">
                     <div className="w-full px-56">
                         <h3 className="text-3xl font-bold text-center">{name}</h3>
-                        <p className="text-sm text-center mt-2">{description}</p>
-                        <div className="flex flex-col gap-2 mt-8">
+                        <p className="text-sm text-center mt-2">{description} or
+                           <div><Link href="/auth/login" className="text-primary">login</Link> if you already have an account</div> 
+                            <div><Link href="/auth/register" className="text-primary">register</Link> if you don&apos;t have an account</div></p>                   
+                         <div className="flex flex-col gap-2 mt-8">
                             <Button variant="outline">Continue with Google</Button>
                             <Button variant="outline">Continue with Github</Button>
                         </div>

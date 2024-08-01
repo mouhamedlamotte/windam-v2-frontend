@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form';
-import { loginFormSchema } from '../schema/formSchama';
+import { loginFormSchema } from '../schema/formSchema';
 import { z } from 'zod';
 import { zodResolver } from "@hookform/resolvers/zod"
 
@@ -23,12 +23,12 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Eye, EyeOff, Loader } from 'lucide-react';
-import { useToast } from '@/components/ui/use-toast'
+import { toast } from '@/components/ui/use-toast';
+import SubmitButton from '@/components/common/submitButton';
 
 
 const LoginForm = () => {
     const router = useRouter();
-    const {toast} = useToast();
     const queryParams = useSearchParams();
     
     const [showPassword, setShowPassword] = useState(false);
@@ -42,7 +42,6 @@ const LoginForm = () => {
         return res.data;
       },
       onSuccess: (data) => {
-        setIsLoading(false);
         setCookie('token', data.access);
         router.replace(nextUrl);
       },
@@ -56,8 +55,6 @@ const LoginForm = () => {
         });
       }
     });
-
-
 
 
     const form = useForm<z.infer<typeof loginFormSchema>>({
@@ -114,9 +111,7 @@ const LoginForm = () => {
             </FormItem>
           )}
         />
-        <Button className='w-full' type="submit" disabled={isLoading}>
-            {isLoading ? <Loader className="animate-spin text-foreground" /> : "Login"}
-        </Button>
+        <SubmitButton title="Login" isLoading={isLoading} />
       </form>
     </Form>
   )

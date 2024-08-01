@@ -4,13 +4,11 @@ import { useQuery } from "@tanstack/react-query";
 import useAuthStore from "../stores/useAuthStore";
 import { User } from "../types";
 import Axiosinstance from "@/lib/axios";
-import { deleteCookie, getCookie } from "cookies-next";
+import { deleteCookie } from "cookies-next";
 
 export const useAuth = () => {
     const login = useAuthStore(state => state.login);
     const logout = useAuthStore(state => state.logout);
-
-
 
     const { data: user, error, isLoading } = useQuery<User>({
         queryKey: ['me'],
@@ -25,7 +23,7 @@ export const useAuth = () => {
     }
     if (error){
       logout()
-      // deleteCookie('token')
+      deleteCookie('token')
     }
     return { user, error, isLoading };
 };
