@@ -14,14 +14,14 @@ import { useRegisterFormStore } from "../stores/useRegisterFormStore";
 import { useForm } from "react-hook-form";
 import { registerFormEmailSchema } from "../schema/formSchema";
 import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { Loader } from "lucide-react";
 import SubmitButton from "@/components/common/submitButton";
 
 export const RegisterEmailStepForm = () => {
     const [isLoading, setIsLoading] = useState(false);
   
     const nextStep = useRegisterFormStore((state) => state.nextStep);
+    const setUserInfo = useRegisterFormStore((state) => state.setUserInfo);
+
   
     const form = useForm<z.infer<typeof registerFormEmailSchema>>({
       resolver: zodResolver(registerFormEmailSchema),
@@ -31,11 +31,8 @@ export const RegisterEmailStepForm = () => {
     });
     function onSubmit(values: z.infer<typeof registerFormEmailSchema>) {
       setIsLoading(true);
-      console.log(values);
-      setTimeout(() => {
-        setIsLoading(false);
-        nextStep();
-      }, 1000);
+      setUserInfo({email: values.email});
+      nextStep();
     }
     return (
       <Form {...form}>
@@ -53,7 +50,7 @@ export const RegisterEmailStepForm = () => {
               </FormItem>
             )}
           />
-        <SubmitButton title="Confirm Enail" isLoading={isLoading} />
+        <SubmitButton title="Confirmer" isLoading={isLoading} />
         </form>
       </Form>
     );

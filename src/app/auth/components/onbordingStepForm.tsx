@@ -26,26 +26,50 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { CalendarDaysIcon, Loader } from "lucide-react";
+import { CalendarDaysIcon } from "lucide-react";
 import SubmitButton from "@/components/common/submitButton";
+import { useMutation } from "@tanstack/react-query";
+import Axiosinstance from "@/lib/axios";
+import { toast } from "@/components/ui/use-toast";
 
 
 
 export const OnBoardingStepForm = () => {
     const [isLoading, setIsLoading] = useState(false);
-    const nextStep = useRegisterFormStore((state) => state.nextStep);
+    const pk = useRegisterFormStore((state) => state.userInfo?.pk);
   
     const form = useForm<z.infer<typeof registerFormOnboardingSchema>>({
       resolver: zodResolver(registerFormOnboardingSchema),
     });
+
+    const mutation = useMutation({
+      mutationFn: async () => {
+        const res = await Axiosinstance.put(`/users/${pk}/`, {
+          first_name: form.getValues("firstName"),
+          last_name: form.getValues("lastName"),
+        });
+        return res.data;
+      },
+      onSuccess: () => {
+        toast({
+          title: "Success",
+          description: "User created successfully",
+        })
+        window.location.href = "/"
+      },
+      onError: (error) => {
+        setIsLoading(false);
+        toast({
+          title: "Error",
+          description: "Error updating user",
+          variant: "destructive",
+        });
+      },
+    });
   
     function onSubmit(values: z.infer<typeof registerFormOnboardingSchema>) {
       setIsLoading(true);
-      console.log(values);
-      setTimeout(() => {
-        setIsLoading(false);
-        nextStep();
-      }, 1000);
+      mutation.mutate();
     }
   
     return (

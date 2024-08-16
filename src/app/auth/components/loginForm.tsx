@@ -47,7 +47,6 @@ const LoginForm = () => {
       },
       onError: (error) => {
         setIsLoading(false);
-        console.error('Error logging in:', error);
         toast({
           title: 'Error',
           description: 'Invalid username or password',

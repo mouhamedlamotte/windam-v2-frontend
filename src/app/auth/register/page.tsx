@@ -10,7 +10,7 @@ const pageMetadata: {title: string; name: string; desrciption: string} = {
 } 
 const Register = () => {
   return (
-    <AuthLayout description={pageMetadata.desrciption} name={pageMetadata.name} >
+    <AuthLayout description={pageMetadata.desrciption} name={pageMetadata.name} title='Register' >
      <RegisterForm />
     </AuthLayout>
   )

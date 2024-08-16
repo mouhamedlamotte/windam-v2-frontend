@@ -13,7 +13,7 @@ const pageMetadata: {title: string; name: string; desrciption: string} = {
 const Login: React.FC = () => {
 
   return (
-    <AuthLayout name={pageMetadata.name} description={pageMetadata.desrciption} >
+    <AuthLayout description={pageMetadata.desrciption} name={pageMetadata.name} title={pageMetadata.title}>
       <LoginForm />
     </AuthLayout>
   );

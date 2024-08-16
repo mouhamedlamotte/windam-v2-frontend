@@ -15,7 +15,6 @@ export const useChatroom = () =>{
         },
         onError: (error) => {
           // Vous pouvez gérer les erreurs ici
-          console.error('Error fetching chatroom data:', error);
         },
       });
 }

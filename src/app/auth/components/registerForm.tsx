@@ -23,9 +23,9 @@ export const RegisterForm = () => {
       case 1:
         return <RegisterEmailStepForm />;
       case 2:
-        return <ConfirmOTPStepForm />;
-      case 3:
         return <SetPasswordStepForm />;
+      case 3:
+        return <ConfirmOTPStepForm />;
       case 4:
         return <OnBoardingStepForm />;
     }

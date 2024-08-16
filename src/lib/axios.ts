@@ -4,8 +4,7 @@ import { getCookie } from 'cookies-next';
 
 
 const Axiosinstance = axios.create({
-    baseURL: 'http://localhost:8000/api',
-    timeout: 1000,
+    baseURL: 'https://windam-backend.onrender.com/api',
     headers: {
       'Content-Type': 'application/json',
 

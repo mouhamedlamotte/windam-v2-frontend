@@ -1,10 +1,10 @@
 "use client";
 
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import useAuthStore from "../stores/useAuthStore";
 import { User } from "../types";
 import Axiosinstance from "@/lib/axios";
-import { deleteCookie } from "cookies-next";
+import { deleteCookie, setCookie } from "cookies-next";
 
 export const useAuth = () => {
     const login = useAuthStore(state => state.login);
@@ -17,7 +17,7 @@ export const useAuth = () => {
           return res.data;
         }
       })
-    
+  
     if (user) {
         login(user);
     }
