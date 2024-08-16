@@ -14,27 +14,28 @@ import { CopyBlock, dracula } from "react-code-blocks";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useChatroomStore } from "../stores/UseChatroomStore";
 import useWebSocket from "react-use-websocket";
+import { baseWsUrl } from "@/constants";
 
 const Chatroom = () => {
   const user = useAuthStore((state) => state.user);
 
 
   const [message, setMessage] = useState("");
-  const {chatroom, dispatch} = useChatroomStore()
-  const socketUrl = 'ws://localhost:8000/ws/messenger/chatroom/aQoJV7HKsKm2uch5hfujsx/'
+  const {chatroom, dispatch} = useChatroomStore()   
 
-  const { sendMessage, lastMessage } = useWebSocket(socketUrl);
-  
+  const socketUrl = chatroom ? `${baseWsUrl}/messenger/chatroom/${chatroom.chatroom.name}/` : null;
+
+  const { sendMessage, lastMessage } = useWebSocket(socketUrl, {
+    shouldReconnect: (closeEvent) => !!chatroom,
+    reconnectInterval: 3000,
+  });
 
   useEffect(() => {
-    if (lastMessage !== null) {  
-        const msg = JSON.parse(lastMessage.data).message;;
-        dispatch({type : "RECEIVE_MESSAGE", payload : msg})
+    if (lastMessage !== null && chatroom) {
+      const msg = JSON.parse(lastMessage.data).message;
+      dispatch({ type: "RECEIVE_MESSAGE", payload: msg });
     }
-    return () => {
-        
-    }
-  }, [lastMessage]);
+  }, [lastMessage, dispatch]);
 
 
   const handleClickSendMessage = useCallback(() => {
