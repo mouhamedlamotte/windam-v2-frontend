@@ -1,10 +1,12 @@
+import { baseURL } from '@/constants';
 import axios from 'axios';
 import { getCookie } from 'cookies-next';
 
 
 
+
 const Axiosinstance = axios.create({
-    baseURL: 'https://windam-backend.onrender.com/api',
+    baseURL,
     headers: {
       'Content-Type': 'application/json',
 

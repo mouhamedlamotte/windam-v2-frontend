@@ -60,7 +60,6 @@ const AuthLayout = ({
         </div>
     </div>
       </div>
-      
     </Suspense>
   );
 };
