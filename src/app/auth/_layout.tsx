@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Bot } from "lucide-react";
 import Link from "next/link";
+import { Suspense } from "react";
 
 const AuthLayout = ({
   name,
@@ -14,6 +15,7 @@ const AuthLayout = ({
   children: React.ReactNode;
 }) => {
   return (
+    <Suspense>
     <div className="h-screen flex flex-col overflow-hidden">
       <div className="px-6 py-8 w-full flex items-center">
         <div className="flex items-center gap-4 text-primary">
@@ -56,8 +58,9 @@ const AuthLayout = ({
         <div className="flex-1  h-full items-center flex justify-center self-end">
           <div className="w-full h-[70%]  bg-muted/70 -mt-16 rounded-l-3xl overflow-hidden bg-[url('/assets/img/chat.svg')] bg-cover bg-center" />
         </div>
-      </div>
     </div>
+      </div>
+    </Suspense>
   );
 };
 
