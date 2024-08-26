@@ -110,7 +110,7 @@
       
 
 .scrollbar-none::-webkit-scrollbar{
-  display: none;
+  display: none !important;
 }
 span::-webkit-scrollbar{
   display: none !important;
@@ -118,8 +118,6 @@ span::-webkit-scrollbar{
 .sc-gJhJTp::-webkit-scrollbar{
   display: none !important;
 }
-
-
-.textarea::before {
-  content: none;
+div::-webkit-scrollbar{
+  display: none !important;
 }
