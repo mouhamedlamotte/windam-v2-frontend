@@ -26,8 +26,8 @@ const Chatroom = () => {
   const socketUrl = chatroom ? `${baseWsUrl}/messenger/chatroom/${chatroom.chatroom.name}/` : null;
 
   const { sendMessage, lastMessage } = useWebSocket(socketUrl, {
-    shouldReconnect: (closeEvent) => !!chatroom,
-    reconnectInterval: 3000,
+    // shouldReconnect: (closeEvent) => !!chatroom,
+    // reconnectInterval: 3000,
   });
 
   useEffect(() => {
