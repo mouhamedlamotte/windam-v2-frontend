@@ -8,10 +8,9 @@ const Chats = () => {
     <Layout>
       <div className="flex h-full w-full bg-muted/40 overflow-hidden">
         <ChatroomsSide />
-
           <Chatroom />
-    
       </div>
+          <div className="mb-20"></div>
     </Layout>
   );
 };

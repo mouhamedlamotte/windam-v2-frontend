@@ -4,6 +4,7 @@ import { ChatRoomType, ChatroomMessageType } from "../types/types"
 type ChatRoomAction =
   | { type: 'RECEIVE_MESSAGE'; payload: ChatroomMessageType }
   | { type: 'CHANGE_ROOM'; payload: ChatRoomType }
+  | { type: 'RESET' }
 
 const chatRoomReducer = (state: ChatRoomType | null, action: ChatRoomAction): ChatRoomType | null => {
     switch (action.type) {
@@ -17,6 +18,8 @@ const chatRoomReducer = (state: ChatRoomType | null, action: ChatRoomAction): Ch
         return state;
       case 'CHANGE_ROOM':
         return action.payload;
+      case 'RESET':
+        return null;
       default:
         return state;
     }

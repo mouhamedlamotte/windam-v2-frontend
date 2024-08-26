@@ -21,7 +21,7 @@ export type PostMediaPreviewProps = {
 
 const ImagePreview = ({url}:{url:string}) =>{
     return (
-        <img alt="image" src={url} className="w-full h-full object-center" />
+        <img alt="image" src={url} className="w-full h-full object-cover" />
     )
 }
 
