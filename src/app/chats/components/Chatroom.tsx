@@ -15,6 +15,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { useChatroomStore } from "../stores/UseChatroomStore";
 import useWebSocket from "react-use-websocket";
 import { baseWsUrl } from "@/constants";
+import { getCookie } from "cookies-next";
 
 const Chatroom = () => {
   const user = useAuthStore((state) => state.user);
@@ -23,11 +24,11 @@ const Chatroom = () => {
   const [message, setMessage] = useState("");
   const {chatroom, dispatch} = useChatroomStore()   
 
-  const socketUrl = chatroom ? `${baseWsUrl}/messenger/chatroom/${chatroom.chatroom.name}/` : null;
+  const socketUrl = chatroom ? `${baseWsUrl}/messenger/chatroom/${chatroom.chatroom.name}/?token=${getCookie("token")}` : null;
 
   const { sendMessage, lastMessage } = useWebSocket(socketUrl, {
-    // shouldReconnect: (closeEvent) => !!chatroom,
-    // reconnectInterval: 3000,
+    shouldReconnect: (closeEvent) => !!chatroom,
+    reconnectInterval: 5000,
   });
 
   useEffect(() => {
