@@ -33,7 +33,7 @@ const PostItem = (post:postItemProps) => {
 
     const [comment, setComment] = useState('')
   return (
-    <div className='w-full min-h-[10rem]  flex flex-col gap-1 py-4'>
+    <div className='w-full min-h-[10rem] max-h-[50rem]  flex flex-col gap-1 py-4'>
         <div className='flex items-center'>
             <div className='flex items-center gap-1'>
                 <Avatar className='w-8 h-8'>

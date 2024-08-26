@@ -19,9 +19,10 @@ export default function Home() {
 
   return (
     <Layout>
-      <div className="h-screen flex flex-col justify-center items-center gap-4">
+      <div className="flex flex-col justify-center items-center gap-4 h-full">
         <div>
-          <p className="text-3xl font-bold">Hey, {user?.username}</p>
+          <p className="md:text-3xl font-bold text-center">Hey, {user?.first_name}</p>
+          <p className="text-center">Bienvenu chez Windam</p>
         </div>
         <Button variant="outline" onClick={handleLogout}>
           Logout

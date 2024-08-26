@@ -3,7 +3,7 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
-import { ChevronDown, CircleEllipsis, Info, Lock, MessageSquareText, MoreHorizontal, Phone, SendHorizonal, UserPlus2, Zap } from "lucide-react";
+import { ChevronDown, ChevronLeft, CircleEllipsis, Info, Lock, MessageSquareText, MoreHorizontal, Phone, SendHorizonal, UserPlus2, Zap } from "lucide-react";
 import { ChatroomMessageType } from "../types/types";
 import useAuthStore from "@/app/auth/stores/useAuthStore";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
@@ -45,14 +45,20 @@ const Chatroom = () => {
   }, [message, sendMessage]);
 
   if (!chatroom){
-    return (<div className="flex justify-center items-center h-screen w-5/6">
+    return (<div className="hidden md:flex justify-center items-center h-screen w-5/6">
         <h3>Selectioner un message pour contnuer</h3>
     </div>)
   }
 
   return (
-    <div className="w-5/6 flex flex-col justify-between">
-      <div className="w-full px-8 py-4 flex">
+    <div className="w-full md:w-4/6 lg:w-5/6 flex flex-col justify-between">
+      <div className="w-full px-2 md:px-8 py-4 flex items-center gap-1">
+        <Button variant='ghost' size='icon' className="md:hidden" 
+        
+        onClick={() => dispatch({ type: 'RESET'})}
+        >
+          <ChevronLeft />
+        </Button>
         {chatroom?.chatroom.private ? (
           <div className="flex gap-4">
             <Avatar>
@@ -188,6 +194,7 @@ const Chatroom = () => {
         </div>
       </Card>
       </div>
+      <div className="mb-[3rem] sm:hidden"></div>
     </div>
   );
 };
