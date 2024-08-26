@@ -20,6 +20,7 @@ import { Separator } from "./ui/separator";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
+import Image from "next/image";
 
 type SideBarLinkProps = {
   href: string;
@@ -51,9 +52,9 @@ const Asidebar = () => {
       <nav className="flex flex-col items-center gap-4 sm:py-4 mt-10">
         <Link
           href="#"
-          className="group flex h-9 w-9 shrink-0 items-center justify-center gap-2 rounded-full bg-primary text-lg font-semibold text-primary-foreground md:h-8 md:w-8 md:text-base"
+          className="group flex  shrink-0 items-center justify-center gap-2 rounded-full text-lg font-semibold text-primary-foreground md:text-base"
         >
-          <BotMessageSquare className="h-4 w-4 transition-all group-hover:scale-110" />
+          <Image src="https://windam.vercel.app/assets/logos/logo.png" alt="Windam" width={40} height={40} />
           <span className="sr-only">Windam</span>
         </Link>
         <div className="mt-10 flex flex-col items-center gap-6 w-full">
@@ -69,7 +70,7 @@ const Asidebar = () => {
               href="#"
               className="flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8"
             >
-              <Bell className="h-5 w-5" />
+              <Bell className="h-8 w-8" />
               <span className="sr-only">Notifications</span>
             </Link>
           </TooltipTrigger>
@@ -81,7 +82,7 @@ const Asidebar = () => {
               href="#"
               className="flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8"
             >
-              <Settings className="h-5 w-5" />
+              <Settings className="h-8 w-8" />
               <span className="sr-only">Settings</span>
             </Link>
           </TooltipTrigger>
@@ -95,7 +96,7 @@ const Asidebar = () => {
               className="flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8"
             >
               <Avatar className="rounded-md">
-                <AvatarImage src="https://github.com/shadcn.png" />
+                <AvatarImage src="https://github.com/mouhamedbaba.png" />
                 <AvatarFallback className="rounded-md">SC</AvatarFallback>
               </Avatar>
               <span className="sr-only">Profile</span>
@@ -124,7 +125,7 @@ const SideBarLink = ({ link }: { link: SideBarLinkProps }) => {
           <link.icon
             className={cn(
               pathname == link.href ? "text-primary" : "text-muted-foreground",
-              "h-5 w-5"
+              "h-8 w-8"
             )}
           />
           <span className="sr-only">{link.name}</span>

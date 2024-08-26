@@ -40,7 +40,7 @@ const AuthLayout = ({
       </div>
       <div className="flex grow  justify-between">
         <div className="div flex-1 h-full flex justify-center items-center">
-          <div className="w-full px-56">
+          <div className="w-full px-6  md:px-56 ">
             <h3 className="text-3xl font-bold text-center">{name}</h3>
             <p className="text-sm text-center mt-2">{description} or</p>
             <div className="flex flex-col gap-2 mt-8">
@@ -55,7 +55,7 @@ const AuthLayout = ({
             <div className="mt-6">{children}</div>
           </div>
         </div>
-        <div className="flex-1  h-full items-center flex justify-center self-end">
+        <div className="flex-1  h-full items-center lg:flex justify-center self-end hidden">
           <div className="w-full h-[70%]  bg-muted/70 -mt-16 rounded-l-3xl overflow-hidden bg-[url('/assets/img/chat.svg')] bg-cover bg-center" />
         </div>
     </div>

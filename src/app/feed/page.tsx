@@ -1,28 +1,28 @@
 import React from 'react'
 import { Layout } from '../_layout'
-import { ScrollArea } from '@/components/ui/scroll-area'
 import PostItem from './components/posts/postItem'
-import StoriesPreviews from './components/stories/storiesPreviews'
+
 
 const Feeds = () => {
   return (
     <Layout>
-        <div className='flex h-screen justify-center items-center px-20 overflow-scroll'>
-            <div className="h-full w-full flex gap-6">
+        <div className='flex h-screen justify-center items-center px-6 lg:px-20 overflow-y-scroll overflow-x-hidden'>
+            <div className="h-full w-full flex gap-6 justify-center lg:justify-start px-6">
 
               
-                <div className="w-4/6 flex flex-col gap-4 scrollbar-none">
+                <div className="lg:w-4/6 max-w-md lg:max-w-none flex flex-col gap-4 scrollbar-none">
                   {/* <StoriesPreviews /> */}
                   <h3 className='text-center font-bold py-4'>Stories</h3>
-                <div className='divide-y divide-muted flex justify-center items-center flex-col px-52'>
+                <div className='divide-y divide-muted flex justify-center items-center flex-col lg:px-32 xl:px-40 2xl:px-52 px-6'>
                   {
                     Array.from({ length: 10 }).map((_, i) => (
                         <PostItem key={i} />
                     ))
                   }
+                  <div className='mb-20 sm:hidden'></div>
                 </div>
                 </div>
-                <div className="w-2/6 right-0 h-full flex justify-center items-center fixed bg-muted">
+                <div className="w-2/6 right-0 h-full lg:flex justify-center items-center fixed bg-muted hidden ">
                   <h3 className='font-bold'>Suggested friends</h3>
                 </div>
             </div>
